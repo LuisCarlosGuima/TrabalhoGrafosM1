@@ -3,7 +3,5 @@
 ################################################################################
 
 /.vs
-/bin
-/obj
-/TrabalhoGrafosM1/obj/
-/TrabalhoGrafosM1/bin/
+bin
+obj
