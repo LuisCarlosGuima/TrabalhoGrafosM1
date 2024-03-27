@@ -131,31 +131,31 @@ public class Grafo
         }
     }
 
-    private List<int> BuscaEmProfundidadeDFSconexo(int vertex)
+    private List<int> BuscaEmProfundidadeDFSconexo(int vertice)
     {
         var pilha = new Stack<int>();
         var pilhaAuxiliarValoresInvertido = new Stack<int>();
         var valordescoberto = new List<int>();
 
-        pilha.Push(vertex);
+        pilha.Push(vertice);
 
         while (pilha.Count > 0 || pilhaAuxiliarValoresInvertido.Count > 0)
         {
             if (pilhaAuxiliarValoresInvertido.Count > 0)
             {
-                vertex = pilhaAuxiliarValoresInvertido.Pop();
+                vertice = pilhaAuxiliarValoresInvertido.Pop();
             }
             else
             {
-                vertex = pilha.Pop();
+                vertice = pilha.Pop();
             }
 
-            if (!valordescoberto.Contains(vertex))
+            if (!valordescoberto.Contains(vertice))
             {
-                valordescoberto.Add(vertex);
+                valordescoberto.Add(vertice);
                 for (int i = 0; i < vertices.Length; i++)
                 {
-                    if (aresta[vertex, i] == 1)
+                    if (aresta[vertice, i] == 1)
                     {
                         pilha.Push(i);
                     }
@@ -169,7 +169,7 @@ public class Grafo
         return valordescoberto;
     }
 
-    public void BuscaEmProfundidadeDFS(char vertex)
+    public void BuscaEmProfundidadeDFS(char vertice)
     {
         var pilha = new Stack<int>();
         var pilhaAuxiliarValoresInvertido = new Stack<int>();
@@ -177,7 +177,7 @@ public class Grafo
 
         Console.WriteLine("Iniciando a busca em profundidade");
 
-        int index = Array.IndexOf(vertices, vertex);
+        int index = Array.IndexOf(vertices, vertice);
         pilha.Push(index);
 
         while (pilha.Count > 0 || pilhaAuxiliarValoresInvertido.Count > 0)
@@ -213,18 +213,18 @@ public class Grafo
         Console.WriteLine();
     }
 
-    public void BuscaEmLarguraBFS(char vertex)
+    public void BuscaEmLarguraBFS(char vertice)
     {
         var fila = new Queue<int>();
         var vetor = new List<char>();
 
         Console.WriteLine("Iniciando a busca em largura");
 
-        var index = Array.IndexOf(vertices, vertex);
+        var index = Array.IndexOf(vertices, vertice);
         fila.Enqueue(index);
-        vetor.Add(vertex);
+        vetor.Add(vertice);
 
-        Console.WriteLine($"Aresta visitada: {vertex}");
+        Console.WriteLine($"Aresta visitada: {vertice}");
         while (fila.Count > 0)
         {
             var intTemporario = fila.Dequeue();
