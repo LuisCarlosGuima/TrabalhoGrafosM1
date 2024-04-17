@@ -261,9 +261,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Digite os vértices separados por vírgula:");
-        var inputVertices = Console.ReadLine().Replace(",", "").ToUpper();
-        var vertices = inputVertices.Trim().ToCharArray();
+        char[] vertices = ObtemVerticesParaMontarMatriz();
 
         int numVertices = vertices.Length;
         int[,] matrizAdj = new int[numVertices, numVertices];
@@ -331,6 +329,31 @@ class Program
 
             Console.WriteLine("Pressione qualquer tecla para continuar...");
             Console.ReadKey();
+        }
+    }
+
+    private static char[] ObtemVerticesParaMontarMatriz()
+    {
+        try
+        {
+            Console.WriteLine("Digite os vértices separados por vírgula:");
+            var inputVertices = Console.ReadLine().Replace(",", "").ToUpper();
+            var vertices = inputVertices.Trim().ToCharArray();
+
+            if (vertices.Length == 0 || vertices.Length == 1)
+            {
+                Console.WriteLine("Foi digitado nenhum valor ou apenas 1, é necessário ter pelo menos 2 vertices");
+                Console.ReadKey();
+                Console.Clear();
+                return ObtemVerticesParaMontarMatriz();
+            }
+
+            return vertices;
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Deu algum erro, tente novamente!");
+            return ObtemVerticesParaMontarMatriz();
         }
     }
 
