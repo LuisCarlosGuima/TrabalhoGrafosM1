@@ -337,8 +337,14 @@ class Program
         try
         {
             Console.WriteLine("Digite os vértices separados por vírgula:");
-            var inputVertices = Console.ReadLine().Replace(",", "").ToUpper();
+            var inputVertices = Console.ReadLine()?.Replace(",", "").ToUpper();
             var vertices = inputVertices.Trim().ToCharArray();
+
+            if (inputVertices.Length > 1)
+            {
+                var verticesSet = new HashSet<char>(inputVertices);
+                vertices = verticesSet.ToArray();
+            }
 
             if (vertices.Length == 0 || vertices.Length == 1)
             {
