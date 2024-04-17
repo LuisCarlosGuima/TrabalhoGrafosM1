@@ -14,7 +14,7 @@ public class Grafo
         for (int i = 0; i < tamanho; i++)
         {
             for (int j = 0; j < tamanho; j++)
-                aresta[i , j ] = matrizAdj[i, j];
+                aresta[i, j] = matrizAdj[i, j];
         }
     }
 
@@ -49,9 +49,10 @@ public class Grafo
         if (index1 == -1 || index2 == -1)
         {
             Console.WriteLine("Um ou ambos os vértices informados não foram encontrados.");
+            Console.WriteLine($"Vertices informados: ({vertice1}, {vertice2}). Utilize a opção 3 para visualizar a matriz");
             return false;
         }
-        else if (ExisteLigacao(index1 , index2))
+        else if (ExisteLigacao(index1, index2))
         {
             Console.WriteLine($"Já existe uma ligação entre os vértices {vertice1} e {vertice2}.");
             return false;
@@ -63,7 +64,7 @@ public class Grafo
         }
         else
         {
-            aresta[index1, index2 ] = 1;
+            aresta[index1, index2] = 1;
             return true;
         }
     }
@@ -74,7 +75,7 @@ public class Grafo
         var index1 = Array.IndexOf(vertices, vertice1);
         var index2 = Array.IndexOf(vertices, vertice2);
 
-        if (ExisteLigacao(index1 , index2))
+        if (ExisteLigacao(index1, index2))
         {
             aresta[index1, index2] = 0;
             Console.WriteLine($"Arestas removidas das vértices {vertice1} e {vertice2}");
@@ -98,11 +99,6 @@ public class Grafo
         }
         return true;
     }
-
-    //public bool ExisteLigacao(int vertice1, int vertice2)
-    //{
-    //    return vertice1 >= 0 && vertice1 < vertices.Length && vertice2 >= 0 && vertice2 < vertices.Length ? aresta[vertice1, vertice2] == 1 : false;
-    //}
 
     public bool ExisteLigacao(int vertice1, int vertice2)
     {
@@ -175,10 +171,17 @@ public class Grafo
         var pilhaAuxiliarValoresInvertido = new Stack<int>();
         var valordescoberto = new List<char>();
 
-        Console.WriteLine("Iniciando a busca em profundidade");
 
         int index = Array.IndexOf(vertices, vertice);
         pilha.Push(index);
+
+        if (index == -1)
+        {
+            Console.WriteLine("Vertice não encontrado/invalido!");
+            return;
+        }
+
+        Console.WriteLine("Iniciando a busca em profundidade");
 
         while (pilha.Count > 0 || pilhaAuxiliarValoresInvertido.Count > 0)
         {
@@ -218,11 +221,18 @@ public class Grafo
         var fila = new Queue<int>();
         var vetor = new List<char>();
 
-        Console.WriteLine("Iniciando a busca em largura");
 
         var index = Array.IndexOf(vertices, vertice);
         fila.Enqueue(index);
         vetor.Add(vertice);
+
+        if (index == -1)
+        {
+            Console.WriteLine("Vertice não encontrado/invalido!");
+            return;
+        }
+
+        Console.WriteLine("Iniciando a busca em largura");
 
         Console.WriteLine($"Aresta visitada: {vertice}");
         while (fila.Count > 0)
@@ -256,7 +266,7 @@ class Program
         var vertices = inputVertices.Trim().ToCharArray();
 
         int numVertices = vertices.Length;
-        int[,] matrizAdj = new int[numVertices, numVertices]; 
+        int[,] matrizAdj = new int[numVertices, numVertices];
 
         var grafo = new Grafo(vertices, matrizAdj);
 
@@ -280,30 +290,23 @@ class Program
             switch (escolha)
             {
                 case '1':
-                    Console.WriteLine("Informe o vértice 1: ");
-                    var vertice1 = char.Parse(Console.ReadLine().ToUpper());
-                    Console.WriteLine("Informe o vértice 2: ");
-                    var vertice2 = char.Parse(Console.ReadLine().ToUpper());
+                    char vertice1, vertice2;
+                    ObtemVertices(out vertice1, out vertice2);
                     grafo.AdicionaVertice(vertice1, vertice2);
                     break;
                 case '2':
-                    Console.WriteLine("Informe o vértice 1: ");
-                    vertice1 = char.Parse(Console.ReadLine().ToUpper());
-                    Console.WriteLine("Informe o vértice 2: ");
-                    vertice2 = char.Parse(Console.ReadLine().ToUpper());
+                    ObtemVertices(out vertice1, out vertice2);
                     grafo.RemoveVertice(vertice1, vertice2);
                     break;
                 case '3':
                     grafo.GeraGrafo();
                     break;
                 case '4':
-                    Console.WriteLine("Informe o vértice para iniciar a busca em profundidade: ");
-                    var verticeProfundidade = char.Parse(Console.ReadLine().ToUpper());
+                    char verticeProfundidade = ObtemVerticeProfundidade();
                     grafo.BuscaEmProfundidadeDFS(verticeProfundidade);
                     break;
                 case '5':
-                    Console.WriteLine("Informe o vértice para iniciar a busca em largura: ");
-                    var verticeLargura = char.Parse(Console.ReadLine().ToUpper());
+                    char verticeLargura = ObtemVerticeLargura();
                     grafo.BuscaEmLarguraBFS(verticeLargura);
                     break;
                 case '6':
@@ -328,6 +331,57 @@ class Program
 
             Console.WriteLine("Pressione qualquer tecla para continuar...");
             Console.ReadKey();
+        }
+    }
+
+    private static char ObtemVerticeLargura()
+    {
+
+        try
+        {
+            Console.WriteLine("Informe o vértice para iniciar a busca em largura: ");
+            return char.Parse(Console.ReadLine()!.ToUpper());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Caracter digitado inválido, digite novamente! Erro: {e?.Message}");
+            Console.ReadKey();
+            Console.Clear();
+            return ObtemVerticeProfundidade();
+        }
+    }
+    private static char ObtemVerticeProfundidade()
+    {
+        try
+        {
+            Console.WriteLine("Informe o vértice para iniciar a busca em profundidade: ");
+            return char.Parse(Console.ReadLine()!.ToUpper());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Caracter digitado inválido, digite novamente! Erro: {e?.Message}");
+            Console.ReadKey();
+            Console.Clear();
+            return ObtemVerticeProfundidade();
+        }
+
+    }
+
+    private static void ObtemVertices(out char vertice1, out char vertice2)
+    {
+        try
+        {
+            Console.WriteLine("Informe o vértice 1: ");
+            vertice1 = char.Parse(Console.ReadLine()!.ToUpper());
+            Console.WriteLine("Informe o vértice 2: ");
+            vertice2 = char.Parse(Console.ReadLine()!.ToUpper());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Caracter digitado inválido, digite novamente! Erro: {e?.Message}");
+            Console.ReadKey();
+            Console.Clear();
+            ObtemVertices(out vertice1, out vertice2);
         }
     }
 }
